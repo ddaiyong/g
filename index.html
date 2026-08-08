@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가업상속공제 2026 세제개편안 – 전후비교 &amp; 업종코드 판정</title>
+<style>
+  :root{
+    --bg:#f5f6f8;
+    --panel:#ffffff;
+    --panel-2:#fafbfc;
+    --border:#e2e5ea;
+    --text:#1c2230;
+    --text-dim:#5b6472;
+    --text-faint:#8891a0;
+    --brand:#1f4287;
+    --brand-2:#153366;
+    --accent:#b8863a;
+    --ok-bg:#e8f5ec;
+    --ok-text:#1c7a3c;
+    --ok-border:#bfe3cb;
+    --no-bg:#fdeaea;
+    --no-text:#c0392b;
+    --no-border:#f3c6c2;
+    --cond-bg:#fdf3e2;
+    --cond-text:#a5690a;
+    --cond-border:#f2dcab;
+    --up-color:#1c7a3c;
+    --down-color:#c0392b;
+    --shadow: 0 1px 2px rgba(20,25,40,0.04), 0 4px 16px rgba(20,25,40,0.06);
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#12151c;
+      --panel:#1a1e27;
+      --panel-2:#20242f;
+      --border:#2b3140;
+      --text:#e7eaf0;
+      --text-dim:#a7afc0;
+      --text-faint:#767f91;
+      --brand:#6f9ceb;
+      --brand-2:#8db3f2;
+      --accent:#e0b874;
+      --ok-bg:#123423;
+      --ok-text:#5fd48a;
+      --ok-border:#1f5c3a;
+      --no-bg:#3a1a1a;
+      --no-text:#f08a80;
+      --no-border:#5c2a25;
+      --cond-bg:#3a2e14;
+      --cond-text:#f0c375;
+      --cond-border:#5c481f;
+      --up-color:#5fd48a;
+      --down-color:#f08a80;
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#12151c;
+    --panel:#1a1e27;
+    --panel-2:#20242f;
+    --border:#2b3140;
+    --text:#e7eaf0;
+    --text-dim:#a7afc0;
+    --text-faint:#767f91;
+    --brand:#6f9ceb;
+    --brand-2:#8db3f2;
+    --accent:#e0b874;
+    --ok-bg:#123423;
+    --ok-text:#5fd48a;
+    --ok-border:#1f5c3a;
+    --no-bg:#3a1a1a;
+    --no-text:#f08a80;
+    --no-border:#5c2a25;
+    --cond-bg:#3a2e14;
+    --cond-text:#f0c375;
+    --cond-border:#5c481f;
+    --up-color:#5fd48a;
+    --down-color:#f08a80;
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 20px rgba(0,0,0,0.35);
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Segoe UI",Roboto,sans-serif;
+    line-height:1.6;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:32px 20px 80px;}
+
+  header.top{margin-bottom:28px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:6px;
+    font-size:12.5px;font-weight:700;color:var(--brand);
+    background:color-mix(in srgb, var(--brand) 12%, transparent);
+    padding:4px 10px;border-radius:100px;letter-spacing:.02em;
+    margin-bottom:12px;
+  }
+  h1{font-size:26px;margin:0 0 8px;letter-spacing:-0.01em;}
+  .sub{color:var(--text-dim);font-size:14.5px;margin:0;}
+  .updated{color:var(--text-faint);font-size:12.5px;margin-top:10px;}
+
+  .banner{
+    margin-top:18px;
+    background:var(--cond-bg);
+    border:1px solid var(--cond-border);
+    color:var(--cond-text);
+    border-radius:10px;
+    padding:12px 14px;
+    font-size:13px;
+    line-height:1.55;
+  }
+  .banner b{font-weight:700;}
+
+  nav.tabs{
+    display:flex;gap:8px;margin:28px 0 18px;
+    border-bottom:1px solid var(--border);
+  }
+  nav.tabs button{
+    appearance:none;border:none;background:transparent;
+    color:var(--text-dim);font-size:14.5px;font-weight:600;
+    padding:10px 4px;margin-right:18px;cursor:pointer;
+    border-bottom:2px solid transparent;
+    font-family:inherit;
+  }
+  nav.tabs button.active{color:var(--brand);border-bottom-color:var(--brand);}
+
+  section.panel{display:none;}
+  section.panel.active{display:block;}
+
+  h2.sect{font-size:18px;margin:0 0 4px;}
+  p.lede{color:var(--text-dim);font-size:13.5px;margin:0 0 20px;}
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:14px;
+    box-shadow:var(--shadow);
+    padding:20px;
+    margin-bottom:20px;
+  }
+
+  /* comparison table */
+  .cmp-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  .cmp-table th, .cmp-table td{
+    text-align:left;padding:12px 10px;vertical-align:top;
+    border-bottom:1px solid var(--border);
+  }
+  .cmp-table thead th{
+    font-size:12px;color:var(--text-faint);font-weight:700;
+    text-transform:uppercase;letter-spacing:.03em;
+    border-bottom:1px solid var(--border);
+  }
+  .cmp-table td.item{font-weight:700;color:var(--text);width:19%;white-space:nowrap;}
+  .cmp-table td.now{color:var(--text-dim);width:34%;}
+  .cmp-table td.new{width:34%;}
+  .cmp-table td.memo{color:var(--text-faint);font-size:12.5px;width:13%;}
+  .cmp-table tbody tr:hover{background:var(--panel-2);}
+  .arrow-up{color:var(--up-color);font-weight:700;}
+  .arrow-down{color:var(--down-color);font-weight:700;}
+  .pill{
+    display:inline-block;font-size:11px;font-weight:700;
+    padding:2px 7px;border-radius:100px;margin-left:6px;
+  }
+  .pill.strengthen{background:var(--no-bg);color:var(--no-text);}
+  .pill.expand{background:var(--ok-bg);color:var(--ok-text);}
+
+  @media (max-width:720px){
+    .cmp-table thead{display:none;}
+    .cmp-table, .cmp-table tbody, .cmp-table tr, .cmp-table td{display:block;width:100% !important;}
+    .cmp-table tr{border-bottom:1px solid var(--border);padding:12px 0;}
+    .cmp-table td{border-bottom:none;padding:4px 0;}
+    .cmp-table td.item{color:var(--brand);}
+    .cmp-table td.now::before{content:"현행  ";color:var(--text-faint);font-weight:700;font-size:11px;}
+    .cmp-table td.new::before{content:"개편안  ";color:var(--text-faint);font-weight:700;font-size:11px;}
+  }
+
+  .limit-bars{display:flex;flex-direction:column;gap:10px;margin-top:6px;}
+  .limit-row{display:flex;align-items:center;gap:10px;font-size:12.5px;}
+  .limit-label{width:64px;flex-shrink:0;color:var(--text-dim);}
+  .limit-track{flex:1;background:var(--panel-2);border-radius:6px;height:18px;position:relative;overflow:hidden;border:1px solid var(--border);}
+  .limit-fill{height:100%;border-radius:6px;}
+  .limit-fill.now{background:linear-gradient(90deg, var(--brand) 0%, var(--brand) 100%);opacity:.55;}
+  .limit-fill.new{background:linear-gradient(90deg, var(--accent) 0%, var(--accent) 100%);}
+  .limit-val{width:70px;text-align:right;font-weight:700;flex-shrink:0;}
+
+  /* checker */
+  .checker-form{display:flex;gap:10px;flex-wrap:wrap;}
+  .checker-form input{
+    flex:1;min-width:220px;
+    background:var(--panel-2);
+    border:1px solid var(--border);
+    color:var(--text);
+    border-radius:8px;
+    padding:11px 13px;
+    font-size:14px;
+    font-family:inherit;
+  }
+  .checker-form input:focus{outline:2px solid var(--brand);outline-offset:1px;}
+  .checker-form button{
+    appearance:none;border:none;background:var(--brand);color:#fff;
+    font-weight:700;font-size:14px;padding:11px 20px;border-radius:8px;
+    cursor:pointer;font-family:inherit;
+  }
+  .checker-form button:hover{background:var(--brand-2);}
+  .hint{color:var(--text-faint);font-size:12px;margin-top:8px;}
+  .examples{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+  .example-chip{
+    font-size:12px;color:var(--text-dim);background:var(--panel-2);
+    border:1px solid var(--border);border-radius:100px;padding:4px 10px;cursor:pointer;
+  }
+  .example-chip:hover{border-color:var(--brand);color:var(--brand);}
+
+  .result{margin-top:20px;}
+  .result-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .status-badge{
+    font-size:13px;font-weight:800;padding:5px 12px;border-radius:100px;
+    display:inline-flex;align-items:center;gap:5px;
+  }
+  .status-badge.yes{background:var(--ok-bg);color:var(--ok-text);border:1px solid var(--ok-border);}
+  .status-badge.no{background:var(--no-bg);color:var(--no-text);border:1px solid var(--no-border);}
+  .status-badge.condition{background:var(--cond-bg);color:var(--cond-text);border:1px solid var(--cond-border);}
+  .result-cat{font-size:16px;font-weight:700;}
+  .result-code{color:var(--text-faint);font-size:12.5px;}
+  .result-note{margin-top:10px;font-size:13.5px;color:var(--text-dim);}
+  .reform-flags{margin-top:14px;display:flex;flex-direction:column;gap:8px;}
+  .flag{
+    background:var(--cond-bg);border:1px solid var(--cond-border);color:var(--cond-text);
+    border-radius:8px;padding:10px 12px;font-size:13px;
+  }
+  .empty-state{color:var(--text-faint);font-size:13.5px;padding:8px 0;}
+
+  /* reference table */
+  .ref-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px;}
+  .ref-table th{
+    text-align:left;font-size:11.5px;color:var(--text-faint);
+    text-transform:uppercase;letter-spacing:.02em;font-weight:700;
+    padding:8px 8px;border-bottom:1px solid var(--border);
+  }
+  .ref-table td{padding:9px 8px;border-bottom:1px solid var(--border);}
+  .ref-table tr.dim td{opacity:.35;}
+  .ref-table tr:hover td{background:var(--panel-2);}
+  .code-badge{
+    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    font-size:12px;font-weight:700;color:var(--text-dim);
+    background:var(--panel-2);border:1px solid var(--border);
+    padding:2px 6px;border-radius:5px;
+  }
+  .status-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:6px;}
+  .status-dot.yes{background:var(--ok-text);}
+  .status-dot.no{background:var(--no-text);}
+  .status-dot.condition{background:var(--cond-text);}
+
+  footer{
+    margin-top:36px;border-top:1px solid var(--border);
+    padding-top:18px;color:var(--text-faint);font-size:12px;line-height:1.7;
+  }
+  footer a{color:var(--text-dim);}
+  footer ul{margin:6px 0 0;padding-left:18px;}
+  .disclaimer{
+    background:var(--panel-2);border:1px solid var(--border);border-radius:10px;
+    padding:12px 14px;font-size:12.5px;color:var(--text-dim);margin-top:20px;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <span class="eyebrow">2026년 세제개편안 · 2026.08.02 발표 기준</span>
+    <h1>가업상속공제 개편 전후비교 &amp; 업종코드 판정 시스템</h1>
+    <p class="sub">가업상속공제(상속세 및 증여세법)의 현행 제도와 2026년 세제개편안을 비교하고, 업종코드를 입력해 가업상속 대상 여부를 확인합니다.</p>
+    <div class="banner">
+      <b>안내</b> · 2026년 세제개편안은 2026.8.2 정부 발표(2027년 세법 반영 예정) 내용이며, 국회 심의·의결 과정에서 세부 내용이 변경될 수 있습니다. 시행 예정일은 <b>2027.7.1</b>입니다.
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="compare">개편 전후비교</button>
+    <button class="tab-btn" data-tab="checker">업종코드 판정</button>
+  </nav>
+
+  <!-- ============ TAB 1: COMPARISON ============ -->
+  <section class="panel active" id="tab-compare">
+    <h2 class="sect">가업상속공제 개편 전후비교</h2>
+    <p class="lede">항목별 현행 제도와 2026년 세제개편안의 차이를 비교합니다.</p>
+
+    <div class="card">
+      <h2 class="sect" style="font-size:14px;margin-bottom:14px;">공제한도 변화</h2>
+      <div class="limit-bars" id="limitBars"></div>
+      <p class="hint" style="margin-top:12px;">현행: 경영기간 10·20·30년 이상 각각 300억·400억·600억원 정액 공제 &nbsp;→&nbsp; 개편안: 경영연수 × 20억원(30년 600억·40년 800억·50년 이상 최대 1,000억원)</p>
+    </div>
+
+    <div class="card" style="overflow-x:auto;">
+      <table class="cmp-table" id="cmpTable">
+        <thead>
+          <tr><th>항목</th><th>현행</th><th>2026 개편안</th><th>구분</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2 class="sect" style="font-size:14px;">한눈에 보는 개편 취지</h2>
+      <p style="font-size:13.5px;color:var(--text-dim);margin:8px 0 0;">
+        편법적인 절세·상속 수단으로 악용된다는 지적을 반영해 <b>진입 요건(경영기간, 사후관리기간, 대상업종)은 강화</b>하는 대신,
+        실제 오랜 기간 기술·경영 노하우를 축적하며 사업을 이어온 기업에는 <b>공제한도를 대폭 확대</b>하는 방향입니다.
+        아울러 자녀 승계가 아닌 <b>제3자 인수합병(M&amp;A)을 통한 사업승계</b>에 대해서도 매도자·매수자 세제지원이 새로 마련됩니다.
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ TAB 2: CHECKER ============ -->
+  <section class="panel" id="tab-checker">
+    <h2 class="sect">업종코드 입력 시스템</h2>
+    <p class="lede">한국표준산업분류(KSIC) 업종코드 또는 업종명을 입력하면 가업상속공제 적용 대상 업종 여부(대분류 기준)를 확인합니다.</p>
+
+    <div class="card">
+      <div class="checker-form">
+        <input type="text" id="codeInput" placeholder="업종코드(예: 10, 62, 68) 또는 업종명(예: 제조업, 부동산 임대업, 병원) 입력">
+        <button id="checkBtn">판정하기</button>
+      </div>
+      <div class="hint">업종코드는 한국표준산업분류(KSIC) 중분류 2자리(또는 5자리 코드의 앞 2자리) 기준으로 대분류를 판정합니다. 세세분류(5자리) 단위의 정밀 판정은 하단 유의사항을 참고하세요.</div>
+      <div class="examples" id="examples"></div>
+
+      <div class="result" id="result" style="display:none;"></div>
+    </div>
+
+    <div class="card">
+      <h2 class="sect" style="font-size:14px;">업종 대분류별 해당 여부 참고표</h2>
+      <p class="hint" style="margin:2px 0 0;">현행 상속세 및 증여세법 시행령 별표 기준. 조건부는 세부 요건 충족 시에만 해당합니다.</p>
+      <div style="overflow-x:auto;">
+        <table class="ref-table" id="refTable">
+          <thead><tr><th>코드</th><th>업종 대분류</th><th>현행 해당여부</th><th>비고</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <b>유의사항</b> · 본 판정 시스템은 한국표준산업분류 대분류·중분류 수준의 참고용 간이 판정 도구이며, 법적 효력이 없습니다.
+      실제 가업상속공제 적용 여부는 사업자등록증상 업종코드(5자리), 매출액 비중, 자산 구성 등을 종합적으로 검토해야 하며,
+      정확한 판단은 세무사 등 전문가 상담 또는 국세청 홈택스, 국가법령정보센터(law.go.kr)의 상속세 및 증여세법 시행령 별표 원문 확인이 필요합니다.
+    </div>
+  </section>
+
+  <footer>
+    <div>출처 및 참고자료</div>
+    <ul>
+      <li>[2026 세제개편] 가업상속공제 최대 1000억으로 확대…경영요건 10년→30년 강화 – 뉴스핌 (2026.8.2)</li>
+      <li>[2026 세제개편] '꼼수 절세' 가업상속공제, 인정기준 10년→30년 강화 – 아시아경제 (2026.8.3)</li>
+      <li>[2026 세제개편안] 가업상속공제 최대 1000억…30년 경영·10년 사후관리로 문턱 높인다 – 아주경제 (2026.8.3)</li>
+      <li>가업상속공제, 경영 10년→30년 강화…프랜차이즈·부동산업 제외 – 헤럴드경제</li>
+      <li>상속세 및 증여세법 시행령 별표(제15조제1항 및 제2항 관련) – 국가법령정보센터(law.go.kr)</li>
+      <li>국세청(NTS) 가업승계 지원제도 안내</li>
+    </ul>
+    <div style="margin-top:10px;">본 페이지는 세법개정안(정부 발표) 및 언론보도를 기반으로 제작한 참고용 자료이며, 세무·법률 자문을 대체하지 않습니다.</div>
+  </footer>
+
+</div>
+
+<script>
+(function(){
+
+  // ---------- Tab switching ----------
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var panels = { compare: document.getElementById('tab-compare'), checker: document.getElementById('tab-checker') };
+  tabBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      tabBtns.forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      Object.keys(panels).forEach(function(k){ panels[k].classList.remove('active'); });
+      panels[btn.dataset.tab].classList.add('active');
+    });
+  });
+
+  // ---------- Comparison table data ----------
+  var cmpRows = [
+    { item:'공제한도', now:'최대 600억원<br><span style="color:var(--text-faint)">(10년↑300억·20년↑400억·30년↑600억)</span>', neu:'최대 1,000억원<br><span style="color:var(--text-faint)">(경영연수×20억원, 50년↑ 1,000억)</span>', tag:'expand', tagLabel:'확대' },
+    { item:'경영기간 요건<br><span style="color:var(--text-faint)">(피상속인)</span>', now:'10년 이상 계속경영', neu:'원칙 30년 이상 계속경영', tag:'strengthen', tagLabel:'강화' },
+    { item:'사후관리 기간', now:'5년', neu:'10년', tag:'strengthen', tagLabel:'강화' },
+    { item:'사후관리 - 고용유지', now:'5년간 정규직 근로자수·총급여액 90% 이상 유지', neu:'연장된 10년간 유지 의무 적용(세부기준 시행령 예정)', tag:'strengthen', tagLabel:'강화' },
+    { item:'사후관리 - 자산유지', now:'5년간 가업용자산 40% 이상 처분 금지', neu:'10년간 자산유지 의무로 확대(세부기준 시행령 예정)', tag:'strengthen', tagLabel:'강화' },
+    { item:'대상업종 규정방식', now:'상증법 시행령 별표(하위법령)에서 규정', neu:'법률에 업종을 직접 열거, 약 727개 업종으로 재정비', tag:'strengthen', tagLabel:'강화' },
+    { item:'명시적 제외업종', now:'부동산업·금융보험업·소비성서비스업 등 제외', neu:'주차장업·창고업·마트(대형유통)·버스및택시운수업·병원 등 추가 명시 제외, 음식점업은 직접 제조·조리하는 경우만 인정', tag:'strengthen', tagLabel:'강화' },
+    { item:'제3자 사업승계(M&amp;A)', now:'별도 세제지원 없음', neu:'매도자·매수자 세제지원 신설', tag:'expand', tagLabel:'신설' },
+    { item:'적용(시행) 시기', now:'현행 유지', neu:'2027.7.1 시행 예정(국회 심의 필요)', tag:'expand', tagLabel:'예정' }
+  ];
+
+  var tbody = document.querySelector('#cmpTable tbody');
+  cmpRows.forEach(function(r){
+    var tr = document.createElement('tr');
+    tr.innerHTML =
+      '<td class="item">'+r.item+'</td>' +
+      '<td class="now">'+r.now+'</td>' +
+      '<td class="new">'+r.neu+'</td>' +
+      '<td class="memo"><span class="pill '+r.tag+'">'+r.tagLabel+'</span></td>';
+    tbody.appendChild(tr);
+  });
+
+  // ---------- Limit bars ----------
+  var limitData = [
+    { label:'10년', now:300, neu:0 },
+    { label:'20년', now:400, neu:0 },
+    { label:'30년', now:600, neu:600 },
+    { label:'40년', now:600, neu:800 },
+    { label:'50년+', now:600, neu:1000 }
+  ];
+  var maxVal = 1000;
+  var barsEl = document.getElementById('limitBars');
+  limitData.forEach(function(d){
+    var row = document.createElement('div');
+    row.className = 'limit-row';
+    var nowPct = (d.now/maxVal*100).toFixed(0);
+    var neuPct = (d.neu/maxVal*100).toFixed(0);
+    row.innerHTML =
+      '<div class="limit-label">'+d.label+'</div>' +
+      '<div style="flex:1;display:flex;flex-direction:column;gap:4px;">' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<div class="limit-track"><div class="limit-fill now" style="width:'+nowPct+'%"></div></div>' +
+          '<div class="limit-val">'+(d.now? d.now+'억' : '-')+'</div>' +
+        '</div>' +
+        '<div style="display:flex;align-items:center;gap:8px;">' +
+          '<div class="limit-track"><div class="limit-fill new" style="width:'+neuPct+'%"></div></div>' +
+          '<div class="limit-val">'+(d.neu? d.neu+'억' : '-')+'</div>' +
+        '</div>' +
+      '</div>';
+    barsEl.appendChild(row);
+  });
+
+  // ---------- KSIC major category data ----------
+  var majors = [
+    { code:'A', lo:1,  hi:3,  name:'농업, 임업 및 어업', status:'condition', note:'작물재배업 중 종자 및 묘목 생산업만 해당(가업자산 중 토지·건물가액 비중 50% 미만 조건)' },
+    { code:'B', lo:5,  hi:8,  name:'광업', status:'yes', note:'업종 전체 해당' },
+    { code:'C', lo:10, hi:34, name:'제조업', status:'yes', note:'업종 전체 해당(자기가 생산한 제품의 직접 판매 포함)' },
+    { code:'D', lo:35, hi:35, name:'전기, 가스, 증기 및 공기조절 공급업', status:'condition', note:'신·재생에너지 발전사업 허가를 받은 경우 등 일부만 해당, 일반 전기판매업은 제외' },
+    { code:'E', lo:36, hi:39, name:'수도, 하수 및 폐기물 처리, 원료재생업', status:'yes', note:'업종 전체 해당' },
+    { code:'F', lo:41, hi:42, name:'건설업', status:'yes', note:'업종 전체 해당' },
+    { code:'G', lo:45, hi:47, name:'도매 및 소매업', status:'yes', note:'업종 전체 해당(2026 개편안은 대형마트 등 일부 유통업 제외 방침)' },
+    { code:'H', lo:49, hi:52, name:'운수 및 창고업', status:'condition', note:'여객·화물운송업 등 일부 해당. 택시운송업 등은 제외 경향(2026 개편안은 버스·택시운수업, 창고업 명시적 제외)' },
+    { code:'I', lo:55, hi:56, name:'숙박 및 음식점업', status:'condition', note:'관광진흥법상 관광숙박업(호텔업 등)만 해당, 일반 여관업은 소비성서비스업으로 제외. 음식점업은 2026 개편안에서 직접 제조·조리하는 경우만 인정' },
+    { code:'J', lo:58, hi:63, name:'정보통신업', status:'condition', note:'대부분 해당하나 게임 소프트웨어 개발·공급업 등 사행성 우려 업종은 제외 가능' },
+    { code:'K', lo:64, hi:66, name:'금융 및 보험업', status:'no', note:'원칙적으로 제외(자산관리 성격)' },
+    { code:'L', lo:68, hi:68, name:'부동산업', status:'no', note:'제외(부동산임대업 등 자산관리 성격, 2026 개편안에서도 제외 유지)' },
+    { code:'M', lo:70, hi:73, name:'전문, 과학 및 기술 서비스업', status:'condition', note:'변호사업·공인회계사업·세무사업·수의업 등 자격사 서비스업은 제외, 엔지니어링·연구개발업 등은 해당' },
+    { code:'N', lo:74, hi:76, name:'사업시설관리, 사업지원 및 임대서비스업', status:'condition', note:'사업시설 유지관리, 여행사업, 경비 및 경호서비스업 등 열거된 일부 업종만 해당' },
+    { code:'O', lo:84, hi:84, name:'공공행정, 국방 및 사회보장 행정', status:'no', note:'제외' },
+    { code:'P', lo:85, hi:85, name:'교육 서비스업', status:'condition', note:'기술 및 직업훈련학원 등 일부만 해당, 일반 학원업은 제외' },
+    { code:'Q', lo:86, hi:87, name:'보건업 및 사회복지 서비스업', status:'condition', note:'사회복지서비스업은 해당, 병원 등 보건업은 원칙적으로 제외(2026 개편안에서 병원 제외 명시)' },
+    { code:'R', lo:90, hi:91, name:'예술, 스포츠 및 여가관련 서비스업', status:'condition', note:'창작·예술관련 서비스업, 스포츠서비스업 등 일부 해당, 도박장 운영 등 사행성 업종은 제외' },
+    { code:'S', lo:94, hi:96, name:'협회 및 단체, 수리 및 기타 개인서비스업', status:'condition', note:'개인 및 소비용품 수리업 등 일부만 해당, 이용업·마사지업 등 일부는 제외' },
+    { code:'T', lo:97, hi:98, name:'가구 내 고용활동 및 자가소비 생산활동', status:'no', note:'제외' },
+    { code:'U', lo:99, hi:99, name:'국제 및 외국기관', status:'no', note:'제외' }
+  ];
+
+  var statusMeta = {
+    yes:{ label:'해당', cls:'yes' },
+    no:{ label:'제외', cls:'no' },
+    condition:{ label:'조건부 해당', cls:'condition' }
+  };
+
+  // 2026 reform keyword flags
+  var reformFlags = [
+    { keywords:['주차장'], text:'2026 개편안: 주차장업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['창고'], text:'2026 개편안: 창고업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['마트','슈퍼마켓','대형유통','백화점','대형마트'], text:'2026 개편안: 마트 등 대형유통업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['버스'], text:'2026 개편안: 버스운송업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['택시'], text:'2026 개편안: 택시운송업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['병원','의원','한방병원','종합병원','요양병원'], text:'2026 개편안: 병원 등 보건업은 가업상속공제 대상에서 명시적으로 제외됩니다.' },
+    { keywords:['음식점','식당','레스토랑','분식','제과','베이커리','빵집'], text:'2026 개편안: 음식점업(제과·베이커리 등 포함)은 직접 제조·조리하는 경우에만 가업상속공제 대상으로 인정됩니다(단순 유통·가맹 형태는 제외).' },
+    { keywords:['프랜차이즈','가맹'], text:'2026 개편안: 자산관리 성격이 강한 프랜차이즈 형태 사업은 가업상속공제 대상에서 제외 경향이 있습니다.' },
+    { keywords:['부동산임대','임대업','부동산 임대'], text:'현행 및 2026 개편안 모두: 부동산임대업은 가업상속공제 대상에서 제외됩니다.' }
+  ];
+
+  // Example lookup chips: label -> input value
+  var examples = [
+    ['제조업(예: 식료품 제조) → 10', '10'],
+    ['소프트웨어 개발업 → 62', '62'],
+    ['부동산 임대업', '부동산임대업'],
+    ['병원', '병원'],
+    ['택시운송업', '택시'],
+    ['건설업 → 41', '41'],
+    ['도매·소매업 → 46', '46']
+  ];
+  var exWrap = document.getElementById('examples');
+  examples.forEach(function(ex){
+    var chip = document.createElement('span');
+    chip.className = 'example-chip';
+    chip.textContent = ex[0];
+    chip.addEventListener('click', function(){
+      document.getElementById('codeInput').value = ex[1];
+      runCheck();
+    });
+    exWrap.appendChild(chip);
+  });
+
+  // ---------- Reference table ----------
+  var refBody = document.querySelector('#refTable tbody');
+  majors.forEach(function(m){
+    var tr = document.createElement('tr');
+    tr.dataset.code = m.code;
+    var meta = statusMeta[m.status];
+    var codeRange = m.lo === m.hi ? m.lo : (m.lo+'~'+m.hi);
+    tr.innerHTML =
+      '<td><span class="code-badge">'+m.code+' · '+codeRange+'</span></td>' +
+      '<td>'+m.name+'</td>' +
+      '<td><span class="status-dot '+meta.cls+'"></span>'+meta.label+'</td>' +
+      '<td style="color:var(--text-faint);font-size:12px;">'+m.note+'</td>';
+    refBody.appendChild(tr);
+  });
+
+  // ---------- Checker logic ----------
+  function findMajorByCode(num){
+    for (var i=0;i<majors.length;i++){
+      if (num >= majors[i].lo && num <= majors[i].hi) return majors[i];
+    }
+    return null;
+  }
+
+  function findMajorByKeyword(text){
+    var lower = text.toLowerCase();
+    var best = null;
+    majors.forEach(function(m){
+      if (m.name.indexOf(text) !== -1) { best = m; }
+    });
+    return best;
+  }
+
+  function matchReformFlags(text){
+    var hits = [];
+    reformFlags.forEach(function(f){
+      f.keywords.forEach(function(kw){
+        if (text.indexOf(kw) !== -1 && hits.indexOf(f) === -1) hits.push(f);
+      });
+    });
+    return hits;
+  }
+
+  function highlightRow(code){
+    document.querySelectorAll('#refTable tbody tr').forEach(function(tr){
+      tr.classList.toggle('dim', code ? tr.dataset.code !== code : false);
+    });
+  }
+
+  function runCheck(){
+    var raw = document.getElementById('codeInput').value.trim();
+    var resultEl = document.getElementById('result');
+    if (!raw){
+      resultEl.style.display='none';
+      highlightRow(null);
+      return;
+    }
+
+    var major = null;
+    var digitMatch = raw.match(/\d{1,5}/);
+    if (digitMatch){
+      var num = parseInt(digitMatch[0].slice(0,2), 10);
+      major = findMajorByCode(num);
+    }
+    if (!major){
+      major = findMajorByKeyword(raw);
+    }
+
+    var flags = matchReformFlags(raw);
+
+    resultEl.style.display='block';
+
+    if (!major && flags.length === 0){
+      resultEl.innerHTML = '<div class="empty-state">일치하는 업종을 찾지 못했습니다. 업종코드(중분류 2자리) 또는 업종명 키워드로 다시 입력해보세요.</div>';
+      highlightRow(null);
+      return;
+    }
+
+    var html = '';
+    if (major){
+      var meta = statusMeta[major.status];
+      html += '<div class="result-head">' +
+        '<span class="status-badge '+meta.cls+'">'+meta.label+'</span>' +
+        '<span class="result-cat">'+major.name+'</span>' +
+        '<span class="result-code">대분류 '+major.code+' · 중분류 '+major.lo+(major.lo!==major.hi?'~'+major.hi:'')+'</span>' +
+      '</div>';
+      html += '<div class="result-note">'+major.note+'</div>';
+      highlightRow(major.code);
+    } else {
+      highlightRow(null);
+    }
+
+    if (flags.length){
+      html += '<div class="reform-flags">';
+      flags.forEach(function(f){
+        html += '<div class="flag">'+f.text+'</div>';
+      });
+      html += '</div>';
+    }
+
+    resultEl.innerHTML = html;
+  }
+
+  document.getElementById('checkBtn').addEventListener('click', runCheck);
+  document.getElementById('codeInput').addEventListener('keydown', function(e){
+    if (e.key === 'Enter') runCheck();
+  });
+
+})();
+</script>
+</body>
+</html>
